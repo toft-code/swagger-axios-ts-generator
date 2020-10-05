@@ -62,22 +62,22 @@ export function getPropertyInfo(
     result.type = 'Enum' + propertyName
     result.ref = 'Enum' + propertyName
     result.enumValue = getEnums(property.enum)
-      .map((item) => `'${item}'='${item}'`)
-      .join(',')
+      .map((item) => `'${item}'`)
+      .join('|')
   }
 
   // enum
-  else if (property.enum) {
-    result.isType = true
-    result.type = 'Enum' + propertyName
-    result.ref = 'Enum' + propertyName
-    result.enumValue =
-      property.type === 'string'
-        ? getEnums(property.enum)
-            .map((item) => `'${item}'`)
-            .join('|')
-        : property.enum.join('|')
-  }
+  // else if (property.enum) {
+  //   result.isType = true
+  //   result.type = 'Enum' + propertyName
+  //   result.ref = 'Enum' + propertyName
+  //   result.enumValue =
+  //     property.type === 'string'
+  //       ? getEnums(property.enum)
+  //           .map((item) => `'${item}'`)
+  //           .join('|')
+  //       : property.enum.join('|')
+  // }
 
   // base
   else {

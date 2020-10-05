@@ -11,11 +11,7 @@ export function generateEnum(schemaName: string, schemaValue: IDefinition) {
       const { type, isEnum, enumValue } = getPropertyInfo(key, value)
 
       if (isEnum) {
-        const template = `
-        export enum ${type} {
-          ${enumValue}
-        }
-          `
+        const template = `export type ${type} = ${enumValue}`
 
         const code = formatCode(template)
 
