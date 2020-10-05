@@ -57,27 +57,20 @@ export function getPropertyInfo(
   }
 
   // enum string
-  else if (property.enum && property.type === 'string') {
+  else if (property.enum) {
     result.isEnum = true
     result.type = 'Enum' + propertyName
     result.ref = 'Enum' + propertyName
-    result.enumValue = getEnums(property.enum)
-      .map((item) => `'${item}'`)
-      .join('|')
+    result.enumValue =
+      property.type === 'string'
+        ? getEnums(property.enum)
+            .map((item) => {
+              const key = item[0].match(/[a-z]/i) ? item : 'NUM' + item
+              return `'${key}'='${item}'`
+            })
+            .join(',')
+        : property.enum.join('|')
   }
-
-  // enum
-  // else if (property.enum) {
-  //   result.isType = true
-  //   result.type = 'Enum' + propertyName
-  //   result.ref = 'Enum' + propertyName
-  //   result.enumValue =
-  //     property.type === 'string'
-  //       ? getEnums(property.enum)
-  //           .map((item) => `'${item}'`)
-  //           .join('|')
-  //       : property.enum.join('|')
-  // }
 
   // base
   else {

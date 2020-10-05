@@ -9,9 +9,14 @@ export function generateEnum(schemaName: string, schemaValue: IDefinition) {
   if (properties) {
     for (const [key, value] of Object.entries(properties)) {
       const { type, isEnum, enumValue } = getPropertyInfo(key, value)
+      // console.log(key, getPropertyInfo(value))
 
       if (isEnum) {
-        const template = `export type ${type} = ${enumValue}`
+        const template = `
+        export enum ${type} {
+          ${enumValue}
+        }
+          `
 
         const code = formatCode(template)
 
