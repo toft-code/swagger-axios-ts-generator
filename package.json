@@ -1,0 +1,42 @@
+{
+  "name": "@toft/swagger-axios-ts-generator",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/index",
+  "typings": "./dist/",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index",
+    "test": "node ./dist/test",
+    "watch": "tsc --watch",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toft-tech/swagger-axios-ts-generator.git"
+  },
+  "keywords": [
+    "swagger",
+    "axios",
+    "typescript",
+    "generator",
+    "api"
+  ],
+  "author": "limichange<limichange@hotmail.com>",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/toft-tech/swagger-axios-ts-generator/issues"
+  },
+  "homepage": "https://github.com/toft-tech/swagger-axios-ts-generator#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "chalk": "^4.1.0",
+    "fs-extra": "^9.0.1",
+    "ora": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.1",
+    "typescript": "^4.0.3"
+  }
+}

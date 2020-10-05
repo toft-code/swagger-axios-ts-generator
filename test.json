@@ -1,0 +1,4122 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://mims.hbfocus.cn",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "users",
+      "description": "系统用户"
+    },
+    {
+      "name": "Record",
+      "description": "检测记录"
+    },
+    {
+      "name": "FormDefinition",
+      "description": "表单配置"
+    },
+    {
+      "name": "file",
+      "description": "文件"
+    },
+    {
+      "name": "dict",
+      "description": "数据字典"
+    },
+    {
+      "name": "Devices",
+      "description": "设备管理"
+    },
+    {
+      "name": "data sync",
+      "description": "数据同步接口"
+    },
+    {
+      "name": "auth",
+      "description": "用户认证"
+    }
+  ],
+  "paths": {
+    "/auth/updatePwd": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "operationId": "updatePwd",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordModifyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "operationId": "authenticate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/updateSign": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "operationId": "signature",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSignUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "operationId": "me",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/sync": {
+      "get": {
+        "tags": [
+          "data sync"
+        ],
+        "description": "同步数据",
+        "operationId": "sync",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSyncVo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/{id}/force": {
+      "delete": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "强制删除设备,并解除关联关系",
+        "operationId": "forceDelete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/devices/{id}": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceVo_Detail"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Devices"
+        ],
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Device"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Devices"
+        ],
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/devices": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "operationId": "list",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeviceVo_List"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Devices"
+        ],
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Device"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/search": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "operationId": "search",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "设备类型",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "devNo",
+            "in": "query",
+            "description": "设备编号(模糊)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "设备名称(模糊)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "manufacturer",
+            "in": "query",
+            "description": "生产厂家(模糊)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nextCalibrationDate",
+            "in": "query",
+            "description": "下一次校准日期",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": "0"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": "20"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageDeviceVo_List"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dicts/{id}/items": {
+      "get": {
+        "tags": [
+          "dict"
+        ],
+        "summary": "查询字典项",
+        "operationId": "items",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "字段名"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": "0"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": "20"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageDictDetail"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "dict"
+        ],
+        "summary": "添加字典项",
+        "operationId": "addItem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DictItemAddRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/dicts/{id}/items/{itemId}": {
+      "put": {
+        "tags": [
+          "dict"
+        ],
+        "summary": "更新字典项",
+        "operationId": "updateItem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DictItemAddRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "dict"
+        ],
+        "summary": "删除字典项",
+        "operationId": "deleteItem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/dicts/{id}": {
+      "get": {
+        "tags": [
+          "dict"
+        ],
+        "operationId": "get_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dict_Detail"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "dict"
+        ],
+        "operationId": "update_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dict"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dict"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "dict"
+        ],
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/dicts": {
+      "get": {
+        "tags": [
+          "dict"
+        ],
+        "operationId": "list_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Dict_List"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "dict"
+        ],
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dict"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dict"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dicts/search": {
+      "get": {
+        "tags": [
+          "dict"
+        ],
+        "operationId": "search_1",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": "0"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": "20"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageDict_List"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/files/preUpload": {
+      "get": {
+        "tags": [
+          "file"
+        ],
+        "description": "获取OSS签名",
+        "operationId": "preUpload",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "img"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OssSignatureVo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/form_definitions/{id}/template": {
+      "put": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "更新表单模板",
+        "operationId": "updateTemplate",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/form_definitions/{id}/unblock": {
+      "put": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "启用",
+        "operationId": "unblock",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/form_definitions/{id}/devices": {
+      "get": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "表单关联的设备列表",
+        "operationId": "devices",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Device"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "表单关联设备",
+        "operationId": "linkDevices",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "解除关联设备",
+        "operationId": "delinkDevices",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/form_definitions/{id}": {
+      "get": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "查询表单配置",
+        "operationId": "get_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormDefinition_Detail"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "修改表单配置",
+        "operationId": "update_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormDefinition"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormDefinition"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "删除表单配置",
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/form_definitions": {
+      "get": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "表单配置列表",
+        "operationId": "list_2",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FormDefinition_List"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "创建表单配置",
+        "operationId": "create_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormDefinition"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormDefinition"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/form_definitions/{id}/block": {
+      "put": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "禁用",
+        "operationId": "block",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/form_definitions/search": {
+      "get": {
+        "tags": [
+          "FormDefinition"
+        ],
+        "summary": "搜索表单配置",
+        "operationId": "search_2",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "模糊搜索表单名称",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "formNo",
+            "in": "query",
+            "description": "模糊搜索表单编号",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "模糊搜索表单名称，表单编号",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blocked",
+            "in": "query",
+            "description": "表单状态过滤",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": "0"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": "20"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageFormDefinition_List"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/records/{id}/submit": {
+      "post": {
+        "tags": [
+          "Record"
+        ],
+        "summary": "提交",
+        "operationId": "submit",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/records/{id}": {
+      "get": {
+        "tags": [
+          "Record"
+        ],
+        "summary": "查询记录",
+        "operationId": "getRecord",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordVo"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Record"
+        ],
+        "summary": "保存/提交 记录",
+        "operationId": "update_3",
+        "parameters": [
+          {
+            "name": "submit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Record"
+        ],
+        "summary": "删除记录",
+        "operationId": "delete_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/records": {
+      "get": {
+        "tags": [
+          "Record"
+        ],
+        "summary": "搜索记录",
+        "operationId": "getRecords",
+        "parameters": [
+          {
+            "name": "formDefinitionId",
+            "in": "query",
+            "description": "表单定义ID",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "formName",
+            "in": "query",
+            "description": "表单名",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "formNo",
+            "in": "query",
+            "description": "表单编号",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recordNo",
+            "in": "query",
+            "description": "记录编号",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectName",
+            "in": "query",
+            "description": "工程名称",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "inspectorId",
+            "in": "query",
+            "description": "检测人员ID",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "recorderId",
+            "in": "query",
+            "description": "记录人员ID",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "reviewerId",
+            "in": "query",
+            "description": "复核人员ID",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "confirmBy",
+            "in": "query",
+            "description": "审核人员ID",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "submitTime.left",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "submitTime.right",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "reviewTime.left",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "reviewTime.right",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "confirmTime.left",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "confirmTime.right",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "记录状态",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "CREATED",
+                  "SUBMITTED",
+                  "CONFIRMED",
+                  "CONFIRM_REJECTED",
+                  "REVIEWED",
+                  "REVIEW_EJECTED"
+                ]
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": "0"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": "20"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageRecordListVo"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Record"
+        ],
+        "summary": "保存/提交 记录",
+        "operationId": "create_3",
+        "parameters": [
+          {
+            "name": "submit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Record"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/records/{id}/confirm": {
+      "post": {
+        "tags": [
+          "Record"
+        ],
+        "summary": "审批确认",
+        "operationId": "confirm",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/records/{id}/review": {
+      "post": {
+        "tags": [
+          "Record"
+        ],
+        "summary": "复核",
+        "operationId": "review",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/records/{id}/review/log": {
+      "get": {
+        "tags": [
+          "Record"
+        ],
+        "summary": "复核记录",
+        "operationId": "reviewLog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "stage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CONFIRM",
+                "REVIEW"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecordReviewLogVo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "get_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User_Detail"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "update_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "delete_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "list_3",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User_List"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "create_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/search": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "search_3",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nickname",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blocked",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "roles",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": "0"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": "20"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageUser_List"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PasswordModifyRequest": {
+        "required": [
+          "confirmPassword",
+          "oldPassword",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "required": [
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "AccessTokenDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "UserSignUpdateRequest": {
+        "required": [
+          "signature"
+        ],
+        "type": "object",
+        "properties": {
+          "signature": {
+            "type": "string"
+          }
+        }
+      },
+      "DataSyncVo": {
+        "type": "object",
+        "properties": {
+          "formDefinitions": {
+            "type": "array",
+            "description": "表单定义",
+            "items": {
+              "$ref": "#/components/schemas/FormDefinitionVo"
+            }
+          },
+          "devices": {
+            "type": "array",
+            "description": "设备列表",
+            "items": {
+              "$ref": "#/components/schemas/DeviceVo"
+            }
+          }
+        }
+      },
+      "DeviceVo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typecreatedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "typelastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "typecreatedDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "typelastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "typelabel": {
+            "type": "string",
+            "description": "字典标签"
+          },
+          "typevalue": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "typedictSort": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
+          },
+          "typedictId": {
+            "$ref": "#/components/schemas/Dict"
+          },
+          "devNo": {
+            "type": "string",
+            "description": "设备编号"
+          },
+          "name": {
+            "type": "string",
+            "description": "设备名称"
+          },
+          "sn": {
+            "type": "string",
+            "description": "出厂编号"
+          },
+          "spec": {
+            "type": "string",
+            "description": "型号规格"
+          },
+          "range": {
+            "type": "string",
+            "description": "量程"
+          },
+          "difference": {
+            "type": "string",
+            "description": "扩展不确定度/最大允差/准确度等级"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "生产厂家"
+          },
+          "buyTime": {
+            "type": "string",
+            "description": "购买时间",
+            "format": "date"
+          },
+          "price": {
+            "type": "number",
+            "description": "价格"
+          },
+          "isMeasuringEquipment": {
+            "type": "boolean",
+            "description": "是否计量器具"
+          },
+          "lastCalibrationDate": {
+            "type": "string",
+            "description": "上次校准日期",
+            "format": "date"
+          },
+          "calibrationCycle": {
+            "type": "integer",
+            "description": "校准周期",
+            "format": "int32"
+          },
+          "nextCalibrationDate": {
+            "type": "string",
+            "description": "下次校准日期",
+            "format": "date"
+          },
+          "calibrationOrg": {
+            "type": "string",
+            "description": "校准机构"
+          },
+          "traceabilityMode": {
+            "type": "string",
+            "description": "溯源方式"
+          },
+          "qualificationsType": {
+            "type": "string",
+            "description": "资质类别"
+          },
+          "archives": {
+            "type": "string",
+            "description": "档案"
+          },
+          "latitude": {
+            "type": "string",
+            "description": "纬度"
+          },
+          "longitude": {
+            "type": "string",
+            "description": "经度"
+          }
+        },
+        "description": "设备列表"
+      },
+      "Dict": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "dictDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DictDetail"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "名称"
+          },
+          "description": {
+            "type": "string",
+            "description": "描述"
+          }
+        }
+      },
+      "DictDetail": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "label": {
+            "type": "string",
+            "description": "字典标签"
+          },
+          "value": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "dictSort": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
+          },
+          "dictId": {
+            "$ref": "#/components/schemas/Dict"
+          }
+        }
+      },
+      "FormDefinitionVo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "id",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "表单名"
+          },
+          "formNo": {
+            "type": "string",
+            "description": "表单编号"
+          },
+          "description": {
+            "type": "string",
+            "description": "表单描述"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/JsonNode"
+          }
+        },
+        "description": "表单定义"
+      },
+      "JsonNode": {
+        "type": "object",
+        "description": "字典值"
+      },
+      "DeviceVo_Detail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typecreatedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "typelastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "typecreatedDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "typelastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "typelabel": {
+            "type": "string",
+            "description": "字典标签"
+          },
+          "typevalue": {
+            "$ref": "#/components/schemas/JsonNode_Detail"
+          },
+          "typedictSort": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
+          },
+          "typedictId": {
+            "$ref": "#/components/schemas/Dict_Detail"
+          },
+          "devNo": {
+            "type": "string",
+            "description": "设备编号"
+          },
+          "name": {
+            "type": "string",
+            "description": "设备名称"
+          },
+          "sn": {
+            "type": "string",
+            "description": "出厂编号"
+          },
+          "spec": {
+            "type": "string",
+            "description": "型号规格"
+          },
+          "range": {
+            "type": "string",
+            "description": "量程"
+          },
+          "difference": {
+            "type": "string",
+            "description": "扩展不确定度/最大允差/准确度等级"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "生产厂家"
+          },
+          "buyTime": {
+            "type": "string",
+            "description": "购买时间",
+            "format": "date"
+          },
+          "price": {
+            "type": "number",
+            "description": "价格"
+          },
+          "isMeasuringEquipment": {
+            "type": "boolean",
+            "description": "是否计量器具"
+          },
+          "lastCalibrationDate": {
+            "type": "string",
+            "description": "上次校准日期",
+            "format": "date"
+          },
+          "calibrationCycle": {
+            "type": "integer",
+            "description": "校准周期",
+            "format": "int32"
+          },
+          "nextCalibrationDate": {
+            "type": "string",
+            "description": "下次校准日期",
+            "format": "date"
+          },
+          "calibrationOrg": {
+            "type": "string",
+            "description": "校准机构"
+          },
+          "traceabilityMode": {
+            "type": "string",
+            "description": "溯源方式"
+          },
+          "qualificationsType": {
+            "type": "string",
+            "description": "资质类别"
+          },
+          "archives": {
+            "type": "string",
+            "description": "档案"
+          },
+          "latitude": {
+            "type": "string",
+            "description": "纬度"
+          },
+          "longitude": {
+            "type": "string",
+            "description": "经度"
+          }
+        }
+      },
+      "DictDetail_Detail": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "label": {
+            "type": "string",
+            "description": "字典标签"
+          },
+          "value": {
+            "$ref": "#/components/schemas/JsonNode_Detail"
+          },
+          "dictSort": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
+          },
+          "dictId": {
+            "$ref": "#/components/schemas/Dict_Detail"
+          }
+        }
+      },
+      "Dict_Detail": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "dictDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DictDetail_Detail"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "名称"
+          },
+          "description": {
+            "type": "string",
+            "description": "描述"
+          }
+        }
+      },
+      "JsonNode_Detail": {
+        "type": "object",
+        "description": "字典值"
+      },
+      "Device": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "devNo": {
+            "type": "string",
+            "description": "设备编号"
+          },
+          "name": {
+            "type": "string",
+            "description": "设备名称"
+          },
+          "sn": {
+            "type": "string",
+            "description": "出厂编号"
+          },
+          "spec": {
+            "type": "string",
+            "description": "型号规格"
+          },
+          "range": {
+            "type": "string",
+            "description": "量程"
+          },
+          "difference": {
+            "type": "string",
+            "description": "扩展不确定度/最大允差/准确度等级"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "生产厂家"
+          },
+          "buyTime": {
+            "type": "string",
+            "description": "购买时间",
+            "format": "date"
+          },
+          "price": {
+            "type": "number",
+            "description": "价格"
+          },
+          "isMeasuringEquipment": {
+            "type": "boolean",
+            "description": "是否计量器具"
+          },
+          "lastCalibrationDate": {
+            "type": "string",
+            "description": "上次校准日期",
+            "format": "date"
+          },
+          "calibrationCycle": {
+            "type": "integer",
+            "description": "校准周期",
+            "format": "int32"
+          },
+          "nextCalibrationDate": {
+            "type": "string",
+            "description": "下次校准日期",
+            "format": "date"
+          },
+          "calibrationOrg": {
+            "type": "string",
+            "description": "校准机构"
+          },
+          "traceabilityMode": {
+            "type": "string",
+            "description": "溯源方式"
+          },
+          "qualificationsType": {
+            "type": "string",
+            "description": "资质类别"
+          },
+          "archives": {
+            "type": "string",
+            "description": "档案"
+          },
+          "latitude": {
+            "type": "string",
+            "description": "纬度"
+          },
+          "longitude": {
+            "type": "string",
+            "description": "经度"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DeviceVo_List": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typecreatedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "typelastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "typecreatedDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "typelastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "typelabel": {
+            "type": "string",
+            "description": "字典标签"
+          },
+          "typevalue": {
+            "$ref": "#/components/schemas/JsonNode_List"
+          },
+          "typedictSort": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
+          },
+          "typedictId": {
+            "$ref": "#/components/schemas/Dict_List"
+          },
+          "devNo": {
+            "type": "string",
+            "description": "设备编号"
+          },
+          "name": {
+            "type": "string",
+            "description": "设备名称"
+          },
+          "sn": {
+            "type": "string",
+            "description": "出厂编号"
+          },
+          "spec": {
+            "type": "string",
+            "description": "型号规格"
+          },
+          "range": {
+            "type": "string",
+            "description": "量程"
+          },
+          "difference": {
+            "type": "string",
+            "description": "扩展不确定度/最大允差/准确度等级"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "生产厂家"
+          },
+          "buyTime": {
+            "type": "string",
+            "description": "购买时间",
+            "format": "date"
+          },
+          "price": {
+            "type": "number",
+            "description": "价格"
+          },
+          "isMeasuringEquipment": {
+            "type": "boolean",
+            "description": "是否计量器具"
+          },
+          "lastCalibrationDate": {
+            "type": "string",
+            "description": "上次校准日期",
+            "format": "date"
+          },
+          "calibrationCycle": {
+            "type": "integer",
+            "description": "校准周期",
+            "format": "int32"
+          },
+          "nextCalibrationDate": {
+            "type": "string",
+            "description": "下次校准日期",
+            "format": "date"
+          },
+          "calibrationOrg": {
+            "type": "string",
+            "description": "校准机构"
+          },
+          "traceabilityMode": {
+            "type": "string",
+            "description": "溯源方式"
+          },
+          "qualificationsType": {
+            "type": "string",
+            "description": "资质类别"
+          },
+          "archives": {
+            "type": "string",
+            "description": "档案"
+          },
+          "latitude": {
+            "type": "string",
+            "description": "纬度"
+          },
+          "longitude": {
+            "type": "string",
+            "description": "经度"
+          }
+        }
+      },
+      "Dict_List": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "description": "名称"
+          },
+          "description": {
+            "type": "string",
+            "description": "描述"
+          }
+        }
+      },
+      "JsonNode_List": {
+        "type": "object",
+        "description": "字典值"
+      },
+      "PageDeviceVo_List": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sort_List"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/Pageable_List"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceVo_List"
+            }
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Pageable_List": {
+        "type": "object",
+        "properties": {
+          "sort": {
+            "$ref": "#/components/schemas/Sort_List"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paged": {
+            "type": "boolean"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Sort_List": {
+        "type": "object",
+        "properties": {
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageDictDetail": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sort"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/Pageable"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DictDetail"
+            }
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Pageable": {
+        "type": "object",
+        "properties": {
+          "sort": {
+            "$ref": "#/components/schemas/Sort"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paged": {
+            "type": "boolean"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Sort": {
+        "type": "object",
+        "properties": {
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DictItemAddRequest": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "dictSort": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PageDict_List": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sort_List"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/Pageable_List"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dict_List"
+            }
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Callback": {
+        "type": "object",
+        "properties": {
+          "callbackUrl": {
+            "type": "string"
+          },
+          "callbackHost": {
+            "type": "string"
+          },
+          "callbackBody": {
+            "type": "string"
+          },
+          "calbackBodyType": {
+            "type": "string",
+            "enum": [
+              "1",
+              "2"
+            ]
+          },
+          "callbackVar": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "callback"
+      },
+      "OssSignatureVo": {
+        "type": "object",
+        "properties": {
+          "accessKeyId": {
+            "type": "string",
+            "description": "accessKeyId"
+          },
+          "signature": {
+            "type": "string",
+            "description": "signature"
+          },
+          "policy": {
+            "type": "string",
+            "description": "policy"
+          },
+          "host": {
+            "type": "string",
+            "description": "host"
+          },
+          "expire": {
+            "type": "string",
+            "description": "expire"
+          },
+          "callback": {
+            "$ref": "#/components/schemas/Callback"
+          },
+          "vars": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "description": "自定义参数"
+            },
+            "description": "自定义参数"
+          },
+          "bucket": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string"
+          }
+        }
+      },
+      "FormDefinition_Detail": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "formNo": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "recordNoTemplate": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/JsonNode_Detail"
+          },
+          "blocked": {
+            "type": "boolean"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "FormDefinition": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "formNo": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "recordNoTemplate": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "blocked": {
+            "type": "boolean"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "FormDefinition_List": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "formNo": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "recordNoTemplate": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "blocked": {
+            "type": "boolean"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PageFormDefinition_List": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sort_List"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/Pageable_List"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormDefinition_List"
+            }
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RecordVo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "formDefinitionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "formName": {
+            "type": "string"
+          },
+          "formNo": {
+            "type": "string"
+          },
+          "recordNo": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "formDefinition": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "status": {
+            "type": "string"
+          },
+          "inspectorid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "inspectorusername": {
+            "type": "string"
+          },
+          "inspectornickname": {
+            "type": "string"
+          },
+          "inspectorphone": {
+            "type": "string"
+          },
+          "recorderid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "recorderusername": {
+            "type": "string"
+          },
+          "recordernickname": {
+            "type": "string"
+          },
+          "recorderphone": {
+            "type": "string"
+          },
+          "reviewerid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reviewerusername": {
+            "type": "string"
+          },
+          "reviewernickname": {
+            "type": "string"
+          },
+          "reviewerphone": {
+            "type": "string"
+          },
+          "reviewRemark": {
+            "type": "string"
+          },
+          "confirmedByid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "confirmedByusername": {
+            "type": "string"
+          },
+          "confirmedBynickname": {
+            "type": "string"
+          },
+          "confirmedByphone": {
+            "type": "string"
+          },
+          "confirmRemark": {
+            "type": "string"
+          },
+          "confirmTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "submitterid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "submitterusername": {
+            "type": "string"
+          },
+          "submitternickname": {
+            "type": "string"
+          },
+          "submitterphone": {
+            "type": "string"
+          },
+          "reviewTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "submitTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "inspectorSignature": {
+            "type": "string"
+          },
+          "recorderSignature": {
+            "type": "string"
+          },
+          "submitterSignature": {
+            "type": "string"
+          },
+          "reviewerSignature": {
+            "type": "string"
+          }
+        }
+      },
+      "PageRecordListVo": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sort"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/Pageable"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecordListVo"
+            }
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RecordListVo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "formName": {
+            "type": "string"
+          },
+          "formNo": {
+            "type": "string"
+          },
+          "recordNo": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "inspectDate": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "inspectorid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "inspectorusername": {
+            "type": "string"
+          },
+          "inspectornickname": {
+            "type": "string"
+          },
+          "inspectorphone": {
+            "type": "string"
+          },
+          "recorderid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "recorderusername": {
+            "type": "string"
+          },
+          "recordernickname": {
+            "type": "string"
+          },
+          "recorderphone": {
+            "type": "string"
+          },
+          "reviewerid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reviewerusername": {
+            "type": "string"
+          },
+          "reviewernickname": {
+            "type": "string"
+          },
+          "reviewerphone": {
+            "type": "string"
+          },
+          "confirmedByid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "confirmedByusername": {
+            "type": "string"
+          },
+          "confirmedBynickname": {
+            "type": "string"
+          },
+          "confirmedByphone": {
+            "type": "string"
+          },
+          "submitterid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "submitterusername": {
+            "type": "string"
+          },
+          "submitternickname": {
+            "type": "string"
+          },
+          "submitterphone": {
+            "type": "string"
+          },
+          "reviewTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "submitTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ConfirmRequest": {
+        "required": [
+          "action"
+        ],
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "审核结论",
+            "enum": [
+              "PASS",
+              "REJECT"
+            ]
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注"
+          }
+        }
+      },
+      "ReviewRequest": {
+        "required": [
+          "action"
+        ],
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "复核结论",
+            "enum": [
+              "PASS",
+              "REJECT"
+            ]
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注"
+          }
+        }
+      },
+      "RecordReviewLogVo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID",
+            "format": "int64"
+          },
+          "recordId": {
+            "type": "integer",
+            "description": "记录ID",
+            "format": "int64"
+          },
+          "recordVersion": {
+            "type": "integer",
+            "description": "记录版本号",
+            "format": "int32"
+          },
+          "stage": {
+            "type": "string",
+            "description": "CONFIRM: 审核, REVIEW: 复核",
+            "enum": [
+              "CONFIRM",
+              "REVIEW"
+            ]
+          },
+          "action": {
+            "type": "string",
+            "description": "结论",
+            "enum": [
+              "PASS",
+              "REJECT"
+            ]
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "operatorid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "operatorusername": {
+            "type": "string"
+          },
+          "operatornickname": {
+            "type": "string"
+          },
+          "operatorphone": {
+            "type": "string"
+          },
+          "operateTime": {
+            "type": "string",
+            "description": "操作时间",
+            "format": "date-time"
+          }
+        }
+      },
+      "RecordCreateRequest": {
+        "type": "object",
+        "properties": {
+          "formDefinitionId": {
+            "type": "integer",
+            "description": "表单ID",
+            "format": "int64"
+          },
+          "recordNo": {
+            "type": "string",
+            "description": "记录编号"
+          },
+          "projectName": {
+            "type": "string",
+            "description": "工程名称"
+          },
+          "inspector": {
+            "type": "integer",
+            "description": "检测人员ID",
+            "format": "int64"
+          },
+          "recorder": {
+            "type": "integer",
+            "description": "记录人员ID",
+            "format": "int64"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/JsonNode"
+          }
+        }
+      },
+      "Record": {
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "formDefinitionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "formName": {
+            "type": "string"
+          },
+          "formNo": {
+            "type": "string"
+          },
+          "recordNo": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "formDefinition": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "CREATED",
+              "SUBMITTED",
+              "CONFIRMED",
+              "CONFIRM_REJECTED",
+              "REVIEWED",
+              "REVIEW_EJECTED"
+            ]
+          },
+          "inspector": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "inspectorSignature": {
+            "type": "string"
+          },
+          "recorder": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "recorderSignature": {
+            "type": "string"
+          },
+          "submitter": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "submitTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "submitterSignature": {
+            "type": "string"
+          },
+          "confirmedBy": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "confirmRemark": {
+            "type": "string"
+          },
+          "confirmTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewer": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reviewRemark": {
+            "type": "string"
+          },
+          "reviewTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewerSignature": {
+            "type": "string"
+          },
+          "ext1": {
+            "type": "string"
+          },
+          "ext2": {
+            "type": "string"
+          },
+          "ext3": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "User_Detail": {
+        "required": [
+          "blocked",
+          "password",
+          "phone",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "string"
+          },
+          "blocked": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "blocked",
+          "password",
+          "phone",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "string"
+          },
+          "blocked": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "User_List": {
+        "required": [
+          "blocked",
+          "password",
+          "phone",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "createdBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "lastModifiedBy": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "string"
+          },
+          "blocked": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PageUser_List": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sort_List"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/Pageable_List"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User_List"
+            }
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
