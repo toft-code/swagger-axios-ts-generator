@@ -13,3 +13,5 @@ codegen({
   useClassTransformer: false,
 })
 ```
+
+Thanks https://github.com/Manweill/swagger-axios-codegen

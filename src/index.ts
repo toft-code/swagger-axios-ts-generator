@@ -1,20 +1,28 @@
+import chalk from 'chalk'
 import { createFiles } from './files'
 import loadRemoteConfig from './loadRemoteConfig'
-
-type Config = {
-  url?: string
-}
+import Config from './type/Config'
+import checkOpenAPIVersion from './utils/checkOpenAPIVersion'
 
 const defaultConfig = {
   url: '',
+  out: __dirname + '/services',
 }
 
 export async function generate(config: Config) {
-  config = Object.assign(defaultConfig, config)
+  const finalConfig = Object.assign(defaultConfig, config)
 
-  if (config.url) {
-    await loadRemoteConfig(config.url)
-  }
+  let swaggerJSON = null
 
-  createFiles()
+  // if (finalConfig.url) {
+  swaggerJSON = await loadRemoteConfig(finalConfig.url)
+  // }
+
+  console.log('openapi: ' + chalk.green(swaggerJSON.openapi))
+
+  checkOpenAPIVersion(swaggerJSON.openapi)
+
+  createFiles(finalConfig.out, swaggerJSON)
+
+  console.log('generated result: ' + chalk.green('success'))
 }
