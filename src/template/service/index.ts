@@ -48,10 +48,14 @@ export function generateService(tag: Tag, paths: Paths) {
     /**
      * ${requestDefinition.summary ?? 'no summary'}
      */
-    ${requestDefinition.operationId} () {
+    ${requestDefinition.operationId} (
+      params: any = {},
+      options: AxiosRequestConfig = {}
+    ) {
       return request({
         url: '${pathName}',
-        method: '${httpMethod}'
+        method: '${httpMethod}',
+        ...options
       })
     },
     `
@@ -60,8 +64,9 @@ export function generateService(tag: Tag, paths: Paths) {
   })
 
   let code = `
-  import { request } from './indexAxios'
-
+  import { request } from '.'
+  import { AxiosRequestConfig } from 'axios'
+  
   export default {
     ${requestExpressions}
   }

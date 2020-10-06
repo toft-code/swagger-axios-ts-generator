@@ -21,7 +21,7 @@ export async function generate(config: Config) {
 
     checkOpenAPIVersion(swaggerJSON.openapi)
 
-    createFiles(finalConfig.out ?? defaultConfig.out, swaggerJSON)
+    await createFiles(finalConfig.out ?? defaultConfig.out, swaggerJSON)
 
     console.log('generated result: ' + chalk.green('success'))
   }

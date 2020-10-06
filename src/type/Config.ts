@@ -10,4 +10,7 @@ export default interface Config {
 
   /** prettier config */
   prettierConfig?: any
+
+  /** request template file url */
+  requestTemplateUrl?: string
 }
