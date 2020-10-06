@@ -24,7 +24,7 @@ export function createFiles(rootDir: string, swaggerJSON: SwaggerConfigType) {
       generateInterface(schemaName, schemaValue)
     )
 
-    generateEnum(schemaName, schemaValue).map(({ name, code }) => {
+    generateEnum(schemaValue).map(({ name, code }) => {
       createInterfaceFile(rootDir, name, code)
     })
   }
