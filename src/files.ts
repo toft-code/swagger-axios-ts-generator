@@ -1,11 +1,29 @@
 import fs from 'fs-extra'
 import { generateEnum } from './template/enum'
 import { generateInterface } from './template/interface'
+import { generateService } from './template/service'
 import { SwaggerConfigType } from './type/SwaggerConfigType'
 import pascalCase from './utils/pascalCase'
 
-function createInterfaceFile(rootDir: string, name: string, code: string) {
-  fs.writeFileSync(rootDir + `/interfaces/${pascalCase(name)}.ts`, code)
+export function createInterfaceFile(
+  rootDir: string,
+  name: string,
+  code: string
+) {
+  return fs.writeFile(rootDir + `/interfaces/${pascalCase(name)}.ts`, code)
+}
+
+export function createServiceFile(rootDir: string, name: string, code: string) {
+  return fs.writeFile(rootDir + `/${pascalCase(name)}.ts`, code)
+}
+
+export function createIndexAxiosFile() {
+  console.log(process.cwd())
+
+  // const res = fs.readFileSync(
+  //   process.cwd() + '/../template/indexAxiosTemplate.ts',
+  //   'utf8'
+  // )
 }
 
 export function createFiles(rootDir: string, swaggerJSON: SwaggerConfigType) {
@@ -14,18 +32,31 @@ export function createFiles(rootDir: string, swaggerJSON: SwaggerConfigType) {
   fs.mkdirSync(rootDir)
   fs.mkdirSync(rootDir + '/interfaces')
 
-  // components
+  createIndexAxiosFile()
+
+  // interface
   const schemasEntries = Object.entries(swaggerJSON.components.schemas)
 
   for (const [schemaName, schemaValue] of schemasEntries) {
+    // normal interface
     createInterfaceFile(
       rootDir,
       schemaName,
       generateInterface(schemaName, schemaValue)
     )
 
+    // enum
     generateEnum(schemaValue).map(({ name, code }) => {
       createInterfaceFile(rootDir, name, code)
     })
   }
+
+  // service
+  swaggerJSON.tags.forEach((tag) => {
+    createServiceFile(
+      rootDir,
+      tag.name,
+      generateService(tag, swaggerJSON.paths)
+    )
+  })
 }

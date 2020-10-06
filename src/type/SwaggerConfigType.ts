@@ -7,21 +7,21 @@ export interface SwaggerConfigType {
   swagger?: string | undefined
   openapi?: string | undefined
   info: string
-  paths: IPaths
+  paths: Paths
   securityDefinitions: string
   definitions: IDefinitions
   components: IComponents
   externalDocs: string
-  tags: Tags[]
+  tags: Tag[]
   basePath?: string | undefined
 }
 
-export interface Tags {
+export interface Tag {
   name: string
   description: string
 }
 
-export interface IPaths {
+export interface Paths {
   [url: string]: IRequestUrl
 }
 
