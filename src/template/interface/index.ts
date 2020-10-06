@@ -1,6 +1,7 @@
 import { IDefinition } from '../../type/SwaggerConfigType'
 import formatCode from '../../utils/formatCode'
 import { getPropertyInfo } from '../../utils/getPropertyInfo'
+import { openapiComment } from '../../utils/openapiComment'
 import pascalCase from '../../utils/pascalCase'
 
 export function generateInterface(
@@ -30,7 +31,7 @@ export function generateInterface(
        * `blocked?: boolean`
        */
       keyValue += `
-        /* ${value.description ?? 'no description'} */
+        /** ${value.description ?? 'no description'} */
         ${key}${isRequired ? '' : '?'}: ${type}
       `
     }
@@ -43,8 +44,5 @@ export function generateInterface(
     }
   `
 
-  // openapi json
-  const openapiComment = '/*\n' + JSON.stringify(schemaValue, null, 2) + '\n*/'
-
-  return formatCode(importExpression + content + openapiComment)
+  return formatCode(importExpression + content + openapiComment(schemaValue))
 }

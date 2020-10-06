@@ -1,6 +1,7 @@
 import { IDefinition } from '../../type/SwaggerConfigType'
 import formatCode from '../../utils/formatCode'
 import { getPropertyInfo } from '../../utils/getPropertyInfo'
+import { openapiComment } from '../../utils/openapiComment'
 
 export function generateEnum(schemaValue: IDefinition) {
   const { properties } = schemaValue
@@ -17,10 +18,7 @@ export function generateEnum(schemaValue: IDefinition) {
           }
         `
 
-        // openapi json
-        const openapiComment = '/*\n' + JSON.stringify(value, null, 2) + '\n*/'
-
-        const code = formatCode(template + openapiComment)
+        const code = formatCode(template + openapiComment(value))
 
         resultArray.push({
           name: type,
