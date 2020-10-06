@@ -13,12 +13,15 @@ export function generateEnum(schemaName: string, schemaValue: IDefinition) {
 
       if (isEnum) {
         const template = `
-        export enum ${type} {
-          ${enumValue}
-        }
-          `
+          export enum ${type} {
+            ${enumValue}
+          }
+        `
 
-        const code = formatCode(template)
+        // openapi json
+        const openapiComment = '/*\n' + JSON.stringify(value, null, 2) + '\n*/'
+
+        const code = formatCode(template + openapiComment)
 
         resultArray.push({
           name: type,

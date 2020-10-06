@@ -4,6 +4,10 @@ import { generateInterface } from './template/interface'
 import { SwaggerConfigType } from './type/SwaggerConfigType'
 import pascalCase from './utils/pascalCase'
 
+function createInterfaceFile(rootDir: string, name: string, code: string) {
+  fs.writeFileSync(rootDir + `/interfaces/${pascalCase(name)}.ts`, code)
+}
+
 export function createFiles(rootDir: string, swaggerJSON: SwaggerConfigType) {
   // init dir
   fs.removeSync(rootDir)
@@ -11,17 +15,17 @@ export function createFiles(rootDir: string, swaggerJSON: SwaggerConfigType) {
   fs.mkdirSync(rootDir + '/interfaces')
 
   // components
-  const { schemas } = swaggerJSON.components
+  const schemasEntries = Object.entries(swaggerJSON.components.schemas)
 
-  for (const [schemaName, schemaValue] of Object.entries(schemas)) {
-    // write file
-    fs.writeFileSync(
-      rootDir + `/interfaces/${pascalCase(schemaName)}.ts`,
+  for (const [schemaName, schemaValue] of schemasEntries) {
+    createInterfaceFile(
+      rootDir,
+      schemaName,
       generateInterface(schemaName, schemaValue)
     )
 
     generateEnum(schemaName, schemaValue).map(({ name, code }) => {
-      fs.writeFileSync(rootDir + `/interfaces/${name}.ts`, code)
+      createInterfaceFile(rootDir, name, code)
     })
   }
 }
