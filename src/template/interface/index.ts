@@ -38,11 +38,13 @@ export function generateInterface(
   }
 
   // interface
-  const content = `
+  const interfaceExpression = `
     export interface ${pascalCase(schemaName)} {
       ${keyValue}
     }
   `
 
-  return formatCode(importExpression + content + openapiComment(schemaValue))
+  return formatCode(
+    importExpression + interfaceExpression + openapiComment(schemaValue)
+  )
 }
