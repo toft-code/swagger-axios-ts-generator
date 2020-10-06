@@ -12,17 +12,15 @@ export function generateEnum(schemaValue: IDefinition) {
       const { type, isEnum, enumValue } = getPropertyInfo(key, value)
 
       if (isEnum) {
-        const template = `
+        const enumExpression = `
           export enum ${type} {
             ${enumValue}
           }
         `
 
-        const code = formatCode(template + openapiComment(value))
-
         resultArray.push({
           name: type,
-          code,
+          code: formatCode(enumExpression + openapiComment(value)),
         })
       }
     }
