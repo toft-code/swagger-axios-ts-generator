@@ -5,6 +5,7 @@
   "main": "./dist/index",
   "typings": "./dist/",
   "scripts": {
+    "clean": "rm -rf dist",
     "build": "tsc",
     "start": "node ./dist/index",
     "test": "node ./dist/test",
