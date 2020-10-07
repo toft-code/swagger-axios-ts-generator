@@ -5,11 +5,12 @@ export const defaultConfig: Required<Config> = {
   out: __dirname + '/services',
   baseURL: '',
   prettierConfig: {},
+  operationIdForeach: (operationId) => operationId,
   requestTemplateUrl:
     'https://raw.githubusercontent.com/toft-tech/swagger-axios-ts-generator/master/src/template/indexAxiosTemplate.ts',
 }
 
-const globalConfig: Config = {
+const globalConfig: Required<Config> = {
   ...defaultConfig,
 }
 

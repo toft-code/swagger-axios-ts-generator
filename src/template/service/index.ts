@@ -1,3 +1,4 @@
+import { getConfig } from '../../globalConfig'
 import { Paths, Tag } from '../../type/SwaggerConfigType'
 import formatCode from '../../utils/formatCode'
 import { getBodyDataType } from './getBodyDataType'
@@ -34,6 +35,7 @@ function getRequestsByTag(tag: Tag, paths: Paths) {
 
 export function generateService(tag: Tag, paths: Paths) {
   const requests = getRequestsByTag(tag, paths)
+  const { operationIdForeach } = getConfig()
   let requestExpressions = ''
   let importExpressionSet = new Set()
 
@@ -53,7 +55,7 @@ export function generateService(tag: Tag, paths: Paths) {
       /**
        * ${summary}
        */
-      ${operationId} (
+      ${operationIdForeach(operationId)} (
         ${pathParametersType ? `params: {${pathParametersType}},` : ''}
         ${bodyType}
         options: AxiosRequestConfig = {}

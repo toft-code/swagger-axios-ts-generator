@@ -13,4 +13,7 @@ export default interface Config {
 
   /** request template file url */
   requestTemplateUrl?: string
+
+  /** foreach operationId */
+  operationIdForeach?: (operationId: string) => string
 }
