@@ -41,15 +41,15 @@ export function getResponses(responses: IRequestMethodResponse) {
     //     }
     //   }
     // }
-    let express = ''
+    let expression = ''
 
     for (let [key, value] of Object.entries(schema.properties)) {
-      express += `${key}: ${value.type}\n`
+      expression += `${key}: ${value.type}\n`
     }
 
     responseType = `
       {
-        ${express}
+        ${expression}
       }
     `
   }
