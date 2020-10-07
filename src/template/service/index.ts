@@ -1,6 +1,7 @@
 import { getConfig } from '../../globalConfig'
 import { Paths, Tag } from '../../type/SwaggerConfigType'
 import formatCode from '../../utils/formatCode'
+import { removeBlankLines } from '../../utils/removeBlankLines'
 import { getBodyDataType } from './getBodyDataType'
 import { getParameters } from './getParameters'
 import { getParametersType } from './getParametersType'
@@ -70,7 +71,7 @@ export function generateService(tag: Tag, paths: Paths) {
       },
     `
 
-    requestExpressions += requestExpression
+    requestExpressions += removeBlankLines(requestExpression) + '\n'
 
     if (bodyTypeImportsSet) {
       importExpressionSet = new Set([
