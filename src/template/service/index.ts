@@ -1,6 +1,8 @@
-import { IParameter, Paths, Tag } from '../../type/SwaggerConfigType'
+import { Paths, Tag } from '../../type/SwaggerConfigType'
 import formatCode from '../../utils/formatCode'
-import toTypescriptType from '../../utils/toTypescriptType'
+import { getBodyDataType } from './getBodyDataType'
+import { getPathParameters } from './getPathParameters'
+import { getPathParametersType } from './getPathParametersType'
 
 function getRequestsByTag(tag: Tag, paths: Paths) {
   const { name: tagName } = tag
@@ -30,43 +32,11 @@ function getRequestsByTag(tag: Tag, paths: Paths) {
   return selectedRequests
 }
 
-export function operationIdMap(id: string) {
-  return id
-}
-
-export function getPathParametersType(parameters: IParameter[]) {
-  if (!parameters || !parameters.filter) return ''
-
-  // 'id: number, id2: number'
-  return parameters
-    .map((parameter) => {
-      return (
-        `'${parameter.name}'` +
-        (parameter.required ? ':' : '?:') +
-        toTypescriptType(parameter.schema.type)
-      )
-    })
-    .join(',')
-}
-
-export function getPathParameters(parameters: IParameter[]) {
-  if (!parameters || !parameters.filter) return ''
-
-  // 'id: number, id2: number'
-  return parameters
-    .map((parameter) => {
-      return `'${parameter.name}': params['${parameter.name}']`
-    })
-    .join(',')
-}
-
 export function generateService(tag: Tag, paths: Paths) {
   const requests = getRequestsByTag(tag, paths)
   let requestExpressions = ''
 
   requests.forEach(({ path, httpMethod, requestDefinition }) => {
-    // todo responses
-
     const {
       operationId,
       requestBody,
@@ -75,7 +45,8 @@ export function generateService(tag: Tag, paths: Paths) {
     } = requestDefinition
     const pathParametersType = getPathParametersType(parameters)
     const pathParameters = getPathParameters(parameters)
-    const hasRequestBody = !!requestBody
+    const bodyDataType = getBodyDataType(requestBody)
+    const hasRequestBody = !!bodyDataType
     const hasPathParameters = !!pathParametersType
     const pathWithPathParams = path.replace(/{/g, '${params.')
 
@@ -85,10 +56,12 @@ export function generateService(tag: Tag, paths: Paths) {
      */
     ${operationId} (
       ${hasPathParameters ? `params: {${pathParametersType}},` : ''}
+      ${hasRequestBody ? bodyDataType : ''}
       options: AxiosRequestConfig = {}
     ) {
       return request({
         ${pathParameters ? `params: {${pathParameters}},` : ''}
+        ${hasRequestBody ? `data,` : ''}
         url: \`${pathWithPathParams}\`,
         method: '${httpMethod}',
         ...options

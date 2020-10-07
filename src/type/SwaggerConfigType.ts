@@ -64,6 +64,7 @@ export interface IRequestMethod {
 }
 
 export interface IRequestBody {
+  required?: boolean
   content: {
     [key: string]: {
       schema: ISchema
