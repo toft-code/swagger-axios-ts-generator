@@ -52,8 +52,6 @@ export function getResponses(responses: IRequestMethodResponse) {
         ${express}
       }
     `
-
-    console.log(responseType)
   }
 
   return {

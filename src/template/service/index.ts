@@ -77,13 +77,11 @@ export function generateService(tag: Tag, paths: Paths) {
 
     requestExpressions += removeBlankLines(requestExpression) + '\n'
 
-    if (bodyTypeImportsSet) {
-      importExpressionSet = new Set([
-        ...importExpressionSet,
-        ...responseImportsSet,
-        ...bodyTypeImportsSet,
-      ])
-    }
+    importExpressionSet = new Set([
+      ...importExpressionSet,
+      ...responseImportsSet,
+      ...bodyTypeImportsSet,
+    ])
   })
 
   let code = `
