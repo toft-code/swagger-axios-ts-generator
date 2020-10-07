@@ -1,8 +1,8 @@
 import { Paths, Tag } from '../../type/SwaggerConfigType'
 import formatCode from '../../utils/formatCode'
 import { getBodyDataType } from './getBodyDataType'
-import { getPathParameters } from './getPathParameters'
-import { getPathParametersType } from './getPathParametersType'
+import { getParameters } from './getParameters'
+import { getParametersType } from './getParametersType'
 
 function getRequestsByTag(tag: Tag, paths: Paths) {
   const { name: tagName } = tag
@@ -44,29 +44,28 @@ export function generateService(tag: Tag, paths: Paths) {
       parameters,
       summary = 'no summary',
     } = requestDefinition
-    const pathParametersType = getPathParametersType(parameters)
-    const pathParameters = getPathParameters(parameters)
+    const pathParametersType = getParametersType(parameters)
+    const pathParameters = getParameters(parameters)
     const { bodyType, bodyTypeImportsSet } = getBodyDataType(requestBody)
-    const hasPathParameters = !!pathParametersType
     const pathWithPathParams = path.replace(/{/g, '${params.')
 
     const requestExpression = `
-    /**
-     * ${summary}
-     */
-    ${operationId} (
-      ${hasPathParameters ? `params: {${pathParametersType}},` : ''}
-      ${bodyType}
-      options: AxiosRequestConfig = {}
-    ) {
-      return request({
-        ${pathParameters ? `params: {${pathParameters}},` : ''}
-        ${bodyType ? `data,` : ''}
-        url: \`${pathWithPathParams}\`,
-        method: '${httpMethod}',
-        ...options
-      })
-    },
+      /**
+       * ${summary}
+       */
+      ${operationId} (
+        ${pathParametersType ? `params: {${pathParametersType}},` : ''}
+        ${bodyType}
+        options: AxiosRequestConfig = {}
+      ) {
+        return request<any>({
+          ${pathParameters ? `params: {${pathParameters}},` : ''}
+          ${bodyType ? `data,` : ''}
+          url: \`${pathWithPathParams}\`,
+          method: '${httpMethod}',
+          ...options
+        })
+      },
     `
 
     requestExpressions += requestExpression

@@ -2,6 +2,10 @@ import { IParameter, ISchema } from '../../type/SwaggerConfigType'
 import toTypescriptType from '../../utils/toTypescriptType'
 
 function getType(schema: ISchema) {
+  if (!schema) {
+    return 'any'
+  }
+
   const { type, format, items } = schema
 
   if (type === 'array' && items?.type) {
@@ -13,13 +17,17 @@ function getType(schema: ISchema) {
   }
 }
 
-export function getPathParametersType(parameters: IParameter[]) {
+export function getParametersType(parameters: IParameter[]) {
   if (!parameters || !parameters.filter) return ''
 
   // 'id: number, sort: string[]'
   return parameters
     .map((parameter) => {
       const parameterType = getType(parameter.schema)
+
+      if (!parameter.schema) {
+        console.log(parameter)
+      }
 
       return (
         `'${parameter.name}'` +

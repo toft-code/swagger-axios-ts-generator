@@ -41,7 +41,7 @@ export function getBodyDataType(requestBody: IRequestBody) {
       bodyType = toTypescriptType(schema.items.type ?? '', schema.items.format)
     }
 
-    if (schema.type && schema.type === 'array') {
+    if (schema.type === 'array') {
       bodyType += '[]'
     }
   } else if (schema.$ref) {
@@ -62,8 +62,6 @@ export function getBodyDataType(requestBody: IRequestBody) {
   if (bodyType) {
     bodyType = `data${requiredSign}${bodyType},`
   }
-
-  console.log(bodyType)
 
   return {
     bodyType,
