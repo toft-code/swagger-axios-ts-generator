@@ -1,5 +1,6 @@
 import { IDefinitionProperty } from '../type/SwaggerConfigType'
 import pascalCase from './pascalCase'
+import { refName } from './refName'
 import toTypescriptType from './toTypescriptType'
 
 export function getPropertyInfo(
@@ -27,9 +28,7 @@ export function getPropertyInfo(
 
   // ref
   if (property.$ref || (property.allOf && property.allOf[0])) {
-    result.type = pascalCase(
-      (property.$ref || property.allOf[0].$ref).split('schemas/')[1]
-    )
+    result.type = pascalCase(refName(property.$ref || property.allOf[0].$ref))
     result.ref = result.type
   }
 
@@ -40,9 +39,7 @@ export function getPropertyInfo(
       (property.items.allOf && property.items.allOf[0])
     ) {
       result.ref = pascalCase(
-        (property.items.$ref || property.items.allOf[0].$ref).split(
-          'schemas/'
-        )[1]
+        refName(property.items.$ref || property.items.allOf[0].$ref)
       )
       result.type = result.ref + '[]'
     } else {

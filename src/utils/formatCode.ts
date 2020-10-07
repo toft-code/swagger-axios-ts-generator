@@ -5,7 +5,7 @@ export default function formatCode(
   prettierConfig: any = {}
 ): string {
   return prettier.format(codeString, {
-    printWidth: 120,
+    printWidth: 80,
     tabWidth: 2,
     parser: 'typescript',
     trailingComma: 'none',
