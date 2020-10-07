@@ -28,7 +28,7 @@ export function getPropertyInfo(
 
   // ref
   if (property.$ref || (property.allOf && property.allOf[0])) {
-    result.type = pascalCase(refName(property.$ref || property.allOf[0].$ref))
+    result.type = refName(property.$ref || property.allOf[0].$ref)
     result.ref = result.type
   }
 
@@ -38,9 +38,7 @@ export function getPropertyInfo(
       property.items.$ref ||
       (property.items.allOf && property.items.allOf[0])
     ) {
-      result.ref = pascalCase(
-        refName(property.items.$ref || property.items.allOf[0].$ref)
-      )
+      result.ref = refName(property.items.$ref || property.items.allOf[0].$ref)
       result.type = result.ref + '[]'
     } else {
       if (property.items.type === 'array' || !!property.items.enum) {
