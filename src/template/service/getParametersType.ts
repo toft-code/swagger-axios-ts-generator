@@ -1,4 +1,5 @@
 import { IParameter, ISchema } from '../../type/SwaggerConfigType'
+import { requiredSign } from '../../utils/requiredSign'
 import toTypescriptType from '../../utils/toTypescriptType'
 
 function getType(schema: ISchema) {
@@ -23,17 +24,17 @@ export function getParametersType(parameters: IParameter[]) {
   // 'id: number, sort: string[]'
   return parameters
     .map((parameter) => {
-      const parameterType = getType(parameter.schema)
+      const { description, schema, required, name } = parameter
+      const parameterType = getType(schema)
 
-      if (!parameter.schema) {
+      if (!schema) {
         console.log(parameter)
       }
 
-      return (
-        `'${parameter.name}'` +
-        (parameter.required ? ':' : '?:') +
-        parameterType
-      )
+      return `
+        ${description ? `/** ${description} */` : ''}
+        '${name}'${requiredSign(required)} ${parameterType}
+      `
     })
     .join(',')
 }

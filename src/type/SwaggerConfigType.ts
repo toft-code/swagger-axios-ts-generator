@@ -78,7 +78,7 @@ export interface IParameter {
   in: IParameterIn
   name: string
   description: string
-  required: string
+  required: boolean
   schema: IParameterSchema
   items: IParameterItems
   type: string
