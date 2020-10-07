@@ -29,6 +29,27 @@ export interface IRequestUrl {
   [method: string]: IRequestMethod
 }
 
+export interface IRequestMethodResponse {
+  [key: string]: {
+    description: string
+    content: {
+      [key: string]: {
+        schema: {
+          $ref?: string
+          type?: string
+          items?: IParameterItems
+          format?: string
+          properties?: {
+            [key: string]: {
+              type: string
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 export interface IRequestMethod {
   tags: string[]
   summary: string
@@ -38,29 +59,7 @@ export interface IRequestMethod {
   produces: string[]
   parameters: IParameter[]
   requestBody: IRequestBody
-  responses: {
-    [key: string]: {
-      description: string
-      // v2
-      schema: {
-        '$ref': string
-        'type'?: string
-        'items'?: IParameterItems
-        'format'?: string
-      }
-      // v3
-      content: {
-        [key: string]: {
-          schema: {
-            '$ref': string
-            'type'?: string
-            'items'?: IParameterItems
-            'format'?: string
-          }
-        }
-      }
-    }
-  }
+  responses: IRequestMethodResponse
 }
 
 export interface IRequestBody {

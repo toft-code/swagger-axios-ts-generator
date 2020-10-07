@@ -5,6 +5,7 @@ import { removeBlankLines } from '../../utils/removeBlankLines'
 import { getBodyDataType } from './getBodyDataType'
 import { getParameters } from './getParameters'
 import { getParametersType } from './getParametersType'
+import { getResponses } from './getResponses'
 
 function getRequestsByTag(tag: Tag, paths: Paths) {
   const { name: tagName } = tag
@@ -45,6 +46,7 @@ export function generateService(tag: Tag, paths: Paths) {
       operationId,
       requestBody,
       parameters,
+      responses,
       summary = 'no summary',
     } = requestDefinition
     const operationIdAfter = operationIdForeach(operationId)
@@ -52,6 +54,7 @@ export function generateService(tag: Tag, paths: Paths) {
     const pathParameters = getParameters(parameters)
     const { bodyType, bodyTypeImportsSet } = getBodyDataType(requestBody)
     const pathWithPathParams = path.replace(/{/g, '${params.')
+    const { responseType, responseImportsSet } = getResponses(responses)
 
     const requestExpression = `
       /**
@@ -62,7 +65,7 @@ export function generateService(tag: Tag, paths: Paths) {
         ${bodyType}
         options: AxiosRequestConfig = {}
       ) {
-        return request<any>({
+        return request<${responseType}>({
           ${pathParameters ? `params: {${pathParameters}},` : ''}
           ${bodyType ? `data,` : ''}
           url: \`${pathWithPathParams}\`,
@@ -77,6 +80,7 @@ export function generateService(tag: Tag, paths: Paths) {
     if (bodyTypeImportsSet) {
       importExpressionSet = new Set([
         ...importExpressionSet,
+        ...responseImportsSet,
         ...bodyTypeImportsSet,
       ])
     }
