@@ -133,7 +133,7 @@ export interface IComponents {
 }
 
 export interface ISchema {
-  '$ref': string
+  '$ref'?: string
   'type'?: string
   'items'?: IParameterItems
   'format'?: string

@@ -1,4 +1,4 @@
-import { IDefinitionProperty } from '../type/SwaggerConfigType'
+import { IDefinitionProperty, ISchema } from '../type/SwaggerConfigType'
 import pascalCase from './pascalCase'
 import { refName } from './refName'
 import toTypescriptType from './toTypescriptType'
@@ -45,7 +45,8 @@ export function getPropertyInfo(
         const currentResult = getPropertyInfo(propertyName, property.items)
         Object.assign(result, currentResult)
       } else {
-        result.type = toTypescriptType(property.items.type) + '[]'
+        result.type =
+          toTypescriptType(property.items.type, property.items.format) + '[]'
       }
     }
     result.isArray = true
@@ -69,7 +70,7 @@ export function getPropertyInfo(
 
   // base
   else {
-    result.type = toTypescriptType(property.type)
+    result.type = toTypescriptType(property.type, property.format)
   }
 
   return result

@@ -35,6 +35,7 @@ function getRequestsByTag(tag: Tag, paths: Paths) {
 export function generateService(tag: Tag, paths: Paths) {
   const requests = getRequestsByTag(tag, paths)
   let requestExpressions = ''
+  let importExpressionSet = new Set()
 
   requests.forEach(({ path, httpMethod, requestDefinition }) => {
     const {
@@ -45,8 +46,7 @@ export function generateService(tag: Tag, paths: Paths) {
     } = requestDefinition
     const pathParametersType = getPathParametersType(parameters)
     const pathParameters = getPathParameters(parameters)
-    const bodyDataType = getBodyDataType(requestBody)
-    const hasRequestBody = !!bodyDataType
+    const { bodyType, bodyTypeImportsSet } = getBodyDataType(requestBody)
     const hasPathParameters = !!pathParametersType
     const pathWithPathParams = path.replace(/{/g, '${params.')
 
@@ -56,12 +56,12 @@ export function generateService(tag: Tag, paths: Paths) {
      */
     ${operationId} (
       ${hasPathParameters ? `params: {${pathParametersType}},` : ''}
-      ${hasRequestBody ? bodyDataType : ''}
+      ${bodyType}
       options: AxiosRequestConfig = {}
     ) {
       return request({
         ${pathParameters ? `params: {${pathParameters}},` : ''}
-        ${hasRequestBody ? `data,` : ''}
+        ${bodyType ? `data,` : ''}
         url: \`${pathWithPathParams}\`,
         method: '${httpMethod}',
         ...options
@@ -70,11 +70,19 @@ export function generateService(tag: Tag, paths: Paths) {
     `
 
     requestExpressions += requestExpression
+
+    if (bodyTypeImportsSet) {
+      importExpressionSet = new Set([
+        ...importExpressionSet,
+        ...bodyTypeImportsSet,
+      ])
+    }
   })
 
   let code = `
   import { request } from '.'
   import { AxiosRequestConfig } from 'axios'
+  ${Array.from(importExpressionSet).join('\n')}
 
   export default {
     ${requestExpressions}
