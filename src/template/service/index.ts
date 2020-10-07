@@ -47,6 +47,7 @@ export function generateService(tag: Tag, paths: Paths) {
       parameters,
       summary = 'no summary',
     } = requestDefinition
+    const operationIdAfter = operationIdForeach(operationId)
     const pathParametersType = getParametersType(parameters)
     const pathParameters = getParameters(parameters)
     const { bodyType, bodyTypeImportsSet } = getBodyDataType(requestBody)
@@ -56,7 +57,7 @@ export function generateService(tag: Tag, paths: Paths) {
       /**
        * ${summary}
        */
-      ${operationIdForeach(operationId)} (
+      ${operationIdAfter} (
         ${pathParametersType ? `params: {${pathParametersType}},` : ''}
         ${bodyType}
         options: AxiosRequestConfig = {}
