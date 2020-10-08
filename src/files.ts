@@ -30,7 +30,7 @@ export async function createIndexAxiosFile() {
 
   if (requestTemplateUrl && !indexFileExist()) {
     const code = await loadRemoteFile('request template', requestTemplateUrl)
-    writeFile(`/index.ts`, code)
+    writeFile(INDEX_FILE, code)
   }
 }
 
