@@ -8,11 +8,11 @@ import ora from 'ora'
 const INDEX_FILE = 'index.ts'
 
 export function writeFile(file: string, data: any) {
-  return fs.writeFileSync(path.join(__dirname, getConfig().out, file), data)
+  return fs.writeFileSync(path.resolve(getConfig().out, file), data)
 }
 
 export function readFile(file: string) {
-  return fs.readFileSync(path.join(__dirname, getConfig().out, file), {
+  return fs.readFileSync(path.resolve(getConfig().out, file), {
     encoding: 'utf8',
   })
 }
@@ -35,12 +35,12 @@ export async function createIndexAxiosFile() {
 }
 
 export function indexFileExist() {
-  return fs.existsSync(path.join(__dirname, getConfig().out, INDEX_FILE))
+  return fs.existsSync(path.resolve(getConfig().out, INDEX_FILE))
 }
 
 export function initFiles() {
   let indexFileContent
-  const rootDir = path.join(__dirname, getConfig().out)
+  const rootDir = path.resolve(getConfig().out)
 
   // save index file
   if (indexFileExist()) {
