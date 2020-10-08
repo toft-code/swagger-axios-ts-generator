@@ -39,6 +39,7 @@
     "semver": "^7.3.2"
   },
   "devDependencies": {
+    "@types/node": "^14.11.5",
     "@types/fs-extra": "^9.0.1",
     "@types/prettier": "^2.1.1",
     "@types/semver": "^7.3.4",
