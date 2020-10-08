@@ -1,19 +1,41 @@
-[Example](https://github.com/toft-tech/swagger-axios-ts-generator-example)
+# @toftcode/swagger-axios-ts-generator
+
+## Install
+
+```shell
+$ npm install @toftcode/swagger-axios-ts-generator
+```
+
+```shell
+$ yarn add @toftcode/swagger-axios-ts-generator
+```
+
+## Example
+
+[Example Link](https://github.com/toft-tech/swagger-axios-ts-generator-example)
 
 ```ts
-const { codegen } = require('swagger-axios-codegen')
+import { generate } from '@toftcode/swagger-axios-ts-generator'
 
-codegen({
-  methodNameMode: 'operationId',
-  remoteUrl: 'http://222.128.10.85:6600/v3/api-docs',
-  outputDir: './service',
-  enumNamePrefix: 'Enum',
-  useStaticMethod: true,
-  multipleFileMode: true,
-  modelMode: 'interface',
-  useCustomerRequestInstance: true,
-  useClassTransformer: false,
+generate({
+  // out files path
+  out: './testServices',
+
+  // api json url
+  url:
+    'https://raw.githubusercontent.com/toftcode/swagger-axios-ts-generator/master/test.json',
+
+  // foreach operationId
+  operationIdForeach: (operationId: string) => {
+    return operationId.match(/[a-zA-Z]+/g)?.join('') ?? operationId
+  },
+
+  // services/index.ts template
+  requestTemplateUrl:
+    'https://raw.githubusercontent.com/toft-tech/swagger-axios-ts-generator/master/src/template/indexAxiosTemplate.ts',
 })
 ```
 
-Thanks https://github.com/Manweill/swagger-axios-codegen
+## Other
+
+Thanks [Manweill/swagger-axios-codegen](https://github.com/Manweill/swagger-axios-codegen)
