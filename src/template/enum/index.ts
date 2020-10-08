@@ -13,6 +13,7 @@ export function generateEnum(schemaValue: IDefinition) {
 
       if (isEnum) {
         const enumExpression = `
+          /** ${value.description ?? 'no description'} */
           export enum ${type} {
             ${enumValue}
           }

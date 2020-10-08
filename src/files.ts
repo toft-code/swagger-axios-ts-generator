@@ -8,7 +8,7 @@ import ora from 'ora'
 const INDEX_FILE = 'index.ts'
 
 export function writeFile(file: string, data: any) {
-  return fs.writeFile(path.join(__dirname, getConfig().out, file), data)
+  return fs.writeFileSync(path.join(__dirname, getConfig().out, file), data)
 }
 
 export function readFile(file: string) {
