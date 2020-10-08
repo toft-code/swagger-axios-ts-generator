@@ -7,7 +7,7 @@ import {
   createServiceFile,
   loadRemoteFile,
 } from './files'
-import { defaultConfig, updateConfig } from './globalConfig'
+import { updateConfig } from './globalConfig'
 import { generateEnum } from './template/enum'
 import { generateInterface } from './template/interface'
 import { generateService } from './template/service'
@@ -17,7 +17,6 @@ import checkOpenAPIVersion from './utils/checkOpenAPIVersion'
 
 export async function generate(config: Config) {
   const finalConfig = updateConfig(config)
-  const { out } = finalConfig
 
   let swaggerJSON: SwaggerConfigType
 
