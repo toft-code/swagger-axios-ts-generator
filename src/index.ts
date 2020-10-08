@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import chalk from 'chalk'
 import {
   initFiles,
@@ -30,9 +31,18 @@ export async function generate(config: Config) {
 
     checkOpenAPIVersion(swaggerJSON.openapi)
 
-    await initFiles(finalConfig.out ?? defaultConfig.out)
+    initFiles()
 
-    await createIndexAxiosFile()
+    await createIndexAxiosFile().catch((e: AxiosError) => {
+      console.log(
+        'load template file error:',
+        'copy',
+        chalk.red(e.config.url),
+        'to',
+        'index.ts'
+      )
+      console.log('# you can manual create it. #')
+    })
 
     // interface
     const schemasEntries = Object.entries(swaggerJSON.components.schemas)
@@ -40,20 +50,19 @@ export async function generate(config: Config) {
     for (const [schemaName, schemaValue] of schemasEntries) {
       // normal interface
       createInterfaceFile(
-        finalConfig.out,
         schemaName,
         generateInterface(schemaName, schemaValue)
       )
 
       // enum
       generateEnum(schemaValue).map(({ name, code }) => {
-        createInterfaceFile(out, name, code)
+        createInterfaceFile(name, code)
       })
     }
 
     // service
     swaggerJSON.tags.forEach((tag) => {
-      createServiceFile(out, tag.name, generateService(tag, swaggerJSON.paths))
+      createServiceFile(tag.name, generateService(tag, swaggerJSON.paths))
     })
 
     console.log('generated result: ' + chalk.green('success'))
