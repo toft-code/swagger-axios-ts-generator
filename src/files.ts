@@ -22,7 +22,10 @@ export function createInterfaceFile(name: string, code: string) {
 }
 
 export function createServiceFile(name: string, code: string) {
-  return writeFile(`${pascalCase(name)}.ts`, code)
+  return writeFile(
+    `${pascalCase(name)}${getConfig().serviceNameSuffix}.ts`,
+    code
+  )
 }
 
 export async function createIndexAxiosFile() {

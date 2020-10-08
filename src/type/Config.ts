@@ -16,4 +16,7 @@ export default interface Config {
 
   /** foreach operationId */
   operationIdForeach?: (operationId: string) => string
+
+  /** service file name suffix */
+  serviceNameSuffix?: string
 }

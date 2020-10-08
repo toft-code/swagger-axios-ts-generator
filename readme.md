@@ -23,6 +23,8 @@ generate({
   // out files path
   out: './testServices',
 
+  serviceNameSuffix: 'Service',
+
   // api json url
   url:
     'https://raw.githubusercontent.com/toftcode/swagger-axios-ts-generator/master/test.json',
