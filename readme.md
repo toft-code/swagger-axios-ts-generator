@@ -14,6 +14,8 @@ $ yarn add @toftcode/swagger-axios-ts-generator
 
 [Example Link](https://github.com/toft-tech/swagger-axios-ts-generator-example)
 
+### TypeScript
+
 ```ts
 import { generate } from '@toftcode/swagger-axios-ts-generator'
 
@@ -33,6 +35,18 @@ generate({
   // services/index.ts template
   requestTemplateUrl:
     'https://raw.githubusercontent.com/toft-tech/swagger-axios-ts-generator/master/src/template/indexAxiosTemplate.ts',
+})
+```
+
+### CommonJS
+
+```js
+const { generate } = require('@toftcode/swagger-axios-ts-generator')
+
+generate({
+  out: './src/testService',
+  url:
+    'https://raw.githubusercontent.com/toftcode/swagger-axios-ts-generator/master/test.json',
 })
 ```
 
