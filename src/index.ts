@@ -67,3 +67,5 @@ export async function generate(config: Config) {
     console.log('generated result: ' + chalk.green('success'))
   }
 }
+
+export default generate
