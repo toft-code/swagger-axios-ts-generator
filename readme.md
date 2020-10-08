@@ -1,3 +1,5 @@
+[Example](https://github.com/toft-tech/swagger-axios-ts-generator-example)
+
 ```ts
 const { codegen } = require('swagger-axios-codegen')
 
