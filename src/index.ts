@@ -4,6 +4,7 @@ import {
   createIndexAxiosFile,
   createInterfaceFile,
   createServiceFile,
+  loadRemoteFile,
 } from './files'
 import { defaultConfig, updateConfig } from './globalConfig'
 import { generateEnum } from './template/enum'
@@ -12,7 +13,6 @@ import { generateService } from './template/service'
 import Config from './type/Config'
 import { SwaggerConfigType } from './type/SwaggerConfigType'
 import checkOpenAPIVersion from './utils/checkOpenAPIVersion'
-import { loadRemoteFile } from './utils/loadRemoteFile'
 
 export async function generate(config: Config) {
   const finalConfig = updateConfig(config)
