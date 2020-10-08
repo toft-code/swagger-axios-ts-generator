@@ -2,7 +2,7 @@ import Config from './type/Config'
 
 export const defaultConfig: Required<Config> = {
   url: '',
-  out: __dirname + '/services',
+  out: './services',
   baseURL: '',
   prettierConfig: {},
   operationIdForeach: (operationId) => operationId,
