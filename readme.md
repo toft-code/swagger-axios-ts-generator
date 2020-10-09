@@ -1,5 +1,7 @@
 # @toftcode/swagger-axios-ts-generator
 
+[![npm version](https://badge.fury.io/js/%40toftcode%2Fswagger-axios-ts-generator.svg)](https://badge.fury.io/js/%40toftcode%2Fswagger-axios-ts-generator)
+
 ## Install
 
 ```shell
@@ -23,6 +25,7 @@ generate({
   // out files path
   out: './testServices',
 
+  // service name suffix
   serviceNameSuffix: 'Service',
 
   // api json url
