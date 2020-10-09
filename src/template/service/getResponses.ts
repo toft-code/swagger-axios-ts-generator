@@ -2,9 +2,20 @@ import { getConfig } from '../../globalConfig'
 import { IRequestMethodResponse } from '../../type/SwaggerConfigType'
 import { refName } from '../../utils/refName'
 
-export function getResponses(responses: IRequestMethodResponse) {
+interface Result {
+  responseTypeExpression: string
+  responseImportsSet: Set<string>
+}
+
+function isDirectReturnDataType(responseType: string): string {
+  const { isDirectReturnData } = getConfig()
+  const directReturnData = isDirectReturnData ? 'any,' : ''
+  return '<' + directReturnData + responseType + '>'
+}
+
+export function getResponses(responses: IRequestMethodResponse): Result {
   const schema = responses?.['200']?.content?.['*/*']?.schema
-  const responseImportsSet = new Set()
+  const responseImportsSet = new Set<string>()
   let responseType = 'any'
 
   function addImport(type: string) {
@@ -13,7 +24,7 @@ export function getResponses(responses: IRequestMethodResponse) {
 
   if (!schema) {
     return {
-      responseType,
+      responseTypeExpression: isDirectReturnDataType(responseType),
       responseImportsSet,
     }
   }
@@ -55,10 +66,8 @@ export function getResponses(responses: IRequestMethodResponse) {
     `
   }
 
-  const directReturnData = getConfig().isDirectReturnData ? 'any,' : ''
-
   return {
-    responseTypeExpression: '<' + directReturnData + responseType + '>',
+    responseTypeExpression: isDirectReturnDataType(responseType),
     responseImportsSet,
   }
 }
