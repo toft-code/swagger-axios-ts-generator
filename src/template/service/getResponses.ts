@@ -1,3 +1,4 @@
+import { getConfig } from '../../globalConfig'
 import { IRequestMethodResponse } from '../../type/SwaggerConfigType'
 import { refName } from '../../utils/refName'
 
@@ -54,8 +55,10 @@ export function getResponses(responses: IRequestMethodResponse) {
     `
   }
 
+  const directReturnData = getConfig().isDirectReturnData ? 'any,' : ''
+
   return {
-    responseType,
+    responseTypeExpression: '<' + directReturnData + responseType + '>',
     responseImportsSet,
   }
 }

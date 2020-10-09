@@ -54,7 +54,9 @@ export function generateService(tag: Tag, paths: Paths) {
     const pathParameters = getParameters(parameters)
     const { bodyType, bodyTypeImportsSet } = getBodyDataType(requestBody)
     const pathWithPathParams = path.replace(/{/g, '${params.')
-    const { responseType, responseImportsSet } = getResponses(responses)
+    const { responseTypeExpression, responseImportsSet } = getResponses(
+      responses
+    )
 
     const requestExpression = `
       /**
@@ -65,7 +67,7 @@ export function generateService(tag: Tag, paths: Paths) {
         ${bodyType}
         options: AxiosRequestConfig = {}
       ) {
-        return request<${responseType}>({
+        return request${responseTypeExpression}({
           ${pathParameters ? `params: {${pathParameters}},` : ''}
           ${bodyType ? `data,` : ''}
           url: \`${pathWithPathParams}\`,

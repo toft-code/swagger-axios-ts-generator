@@ -19,4 +19,7 @@ export default interface Config {
 
   /** service file name suffix */
   serviceNameSuffix?: string
+
+  /** direct return data */
+  isDirectReturnData?: boolean
 }

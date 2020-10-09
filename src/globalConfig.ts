@@ -5,6 +5,7 @@ export const defaultConfig: Required<Config> = {
   out: './services',
   serviceNameSuffix: 'Service',
   baseURL: '',
+  isDirectReturnData: false,
   prettierConfig: {},
   operationIdForeach: (operationId) => operationId,
   requestTemplateUrl:
