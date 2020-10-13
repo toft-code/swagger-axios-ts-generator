@@ -87,13 +87,13 @@ export function generateService(tag: Tag, paths: Paths) {
   })
 
   let code = `
-  import { request } from '.'
-  import { AxiosRequestConfig } from 'axios'
-  ${Array.from(importExpressionSet).join('\n')}
+    import { request } from '.'
+    import { AxiosRequestConfig } from 'axios'
+    ${Array.from(importExpressionSet).sort().join('\n')}
 
-  export default {
-    ${requestExpressions}
-  }
+    export default {
+      ${requestExpressions}
+    }
   `
 
   return formatCode(code)

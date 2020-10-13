@@ -11,7 +11,7 @@ export function generateInterface(
 ) {
   const { properties } = schemaValue
   let keyValue = ''
-  let importExpression = ''
+  let importExpressionSet = new Set<string>()
 
   // properties
   if (properties) {
@@ -19,12 +19,8 @@ export function generateInterface(
       const isRequired = schemaValue.required?.some((item) => item === key)
       const { type, ref } = getPropertyInfo(key, value)
 
-      if (ref) {
-        const express = `import { ${ref} } from './${ref}'\n`
-
-        if (withImportExpression && !importExpression.includes(express)) {
-          importExpression += express
-        }
+      if (ref && withImportExpression) {
+        importExpressionSet.add(ref)
       }
 
       /**
@@ -43,6 +39,11 @@ export function generateInterface(
       ${keyValue}
     }
   `
+
+  const importExpression = Array.from(importExpressionSet)
+    .sort()
+    .map((ref) => `import { ${ref} } from './${ref}'\n`)
+    .join('')
 
   return formatCode(
     importExpression + interfaceExpression + openapiComment(schemaValue)
