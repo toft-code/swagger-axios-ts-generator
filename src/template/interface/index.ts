@@ -10,7 +10,7 @@ export function generateInterface(
   withImportExpression: boolean = true
 ) {
   const { properties } = schemaValue
-  let keyValue = ''
+  let keyValueMap = new Map()
   let importExpressionSet = new Set<string>()
 
   // properties
@@ -26,17 +26,27 @@ export function generateInterface(
       /**
        * `blocked?: boolean`
        */
-      keyValue += `
-        /** ${value.description ?? 'no description'} */
-        ${key}${isRequired ? '' : '?'}: ${type}
-      `
+      keyValueMap.set(
+        key,
+        `
+          /** ${value.description ?? 'no description'} */
+          ${key}${isRequired ? '' : '?'}: ${type}
+        `
+      )
     }
   }
+
+  const keyValueExpression = [...keyValueMap]
+    .sort()
+    .map((item) => {
+      return item[1]
+    })
+    .join('\n')
 
   // interface
   const interfaceExpression = `
     export interface ${pascalCase(schemaName)} {
-      ${keyValue}
+      ${keyValueExpression}
     }
   `
 
