@@ -1,6 +1,6 @@
 {
   "name": "@toftcode/swagger-axios-ts-generator",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "use swagger api json to auto generate ts code",
   "main": "./dist/index",
   "typings": "./dist/",
