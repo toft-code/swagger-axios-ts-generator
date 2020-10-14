@@ -38,7 +38,7 @@ function getRequestsByTag(tag: Tag, paths: Paths) {
 export function generateService(tag: Tag, paths: Paths) {
   const requests = getRequestsByTag(tag, paths)
   const { operationIdForeach } = getConfig()
-  let requestExpressions = ''
+  let requestExpressionMap = new Map<string, string>()
   let importExpressionSet = new Set()
 
   requests.forEach(({ path, httpMethod, requestDefinition }) => {
@@ -77,7 +77,10 @@ export function generateService(tag: Tag, paths: Paths) {
       },
     `
 
-    requestExpressions += removeBlankLines(requestExpression) + '\n'
+    requestExpressionMap.set(
+      operationIdAfter,
+      removeBlankLines(requestExpression)
+    )
 
     importExpressionSet = new Set([
       ...importExpressionSet,
@@ -85,6 +88,11 @@ export function generateService(tag: Tag, paths: Paths) {
       ...bodyTypeImportsSet,
     ])
   })
+
+  const requestExpressions = [...requestExpressionMap]
+    .sort()
+    .map((item) => item[1])
+    .join('\n')
 
   let code = `
     import { request } from '.'

@@ -38,9 +38,7 @@ export function generateInterface(
 
   const keyValueExpression = [...keyValueMap]
     .sort()
-    .map((item) => {
-      return item[1]
-    })
+    .map((item) => item[1])
     .join('\n')
 
   // interface
