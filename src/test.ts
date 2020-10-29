@@ -1,6 +1,7 @@
 import generate from '.'
 
-const testConfigURL = 'https://mims.hbfocus.cn/api/v3/api-docs'
+const testConfigURL =
+  'https://raw.githubusercontent.com/toft-code/swagger-axios-ts-generator/master/test.json'
 
 generate({
   out: './testServices',
