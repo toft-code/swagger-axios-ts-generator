@@ -54,7 +54,7 @@ export async function generate(config: Config) {
       )
 
       // enum
-      generateEnum(schemaValue).map(({ name, code }) => {
+      generateEnum(schemaName, schemaValue).map(({ name, code }) => {
         createInterfaceFile(name, code)
       })
     }

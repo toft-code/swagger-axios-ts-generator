@@ -4,6 +4,7 @@ import { refName } from './refName'
 import toTypescriptType from './toTypescriptType'
 
 export function getPropertyInfo(
+  schemaName: string,
   propertyName: string,
   property: IDefinitionProperty
 ): {
@@ -25,6 +26,7 @@ export function getPropertyInfo(
   }
 
   propertyName = pascalCase(propertyName)
+  schemaName = pascalCase(schemaName)
 
   // ref
   if (property.$ref || (property.allOf && property.allOf[0])) {
@@ -42,7 +44,11 @@ export function getPropertyInfo(
       result.type = result.ref + '[]'
     } else {
       if (property.items.type === 'array' || !!property.items.enum) {
-        const currentResult = getPropertyInfo(propertyName, property.items)
+        const currentResult = getPropertyInfo(
+          schemaName,
+          propertyName,
+          property.items
+        )
         Object.assign(result, currentResult)
       } else {
         result.type =
@@ -55,8 +61,8 @@ export function getPropertyInfo(
   // enum string
   else if (property.enum) {
     result.isEnum = true
-    result.type = 'Enum' + propertyName
-    result.ref = 'Enum' + propertyName
+    result.type = 'Enum' + propertyName + 'Of' + schemaName
+    result.ref = result.type
     result.enumValue =
       property.type === 'string'
         ? getEnums(property.enum)

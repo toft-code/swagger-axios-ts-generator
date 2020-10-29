@@ -17,7 +17,7 @@ export function generateInterface(
   if (properties) {
     for (const [key, value] of Object.entries(properties)) {
       const isRequired = schemaValue.required?.some((item) => item === key)
-      const { type, ref } = getPropertyInfo(key, value)
+      const { type, ref } = getPropertyInfo(schemaName, key, value)
 
       if (ref && withImportExpression) {
         importExpressionSet.add(ref)
