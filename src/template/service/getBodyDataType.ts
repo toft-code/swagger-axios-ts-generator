@@ -45,18 +45,39 @@ export function getBodyDataType(requestBody: IRequestBody) {
       bodyType += '[]'
     }
   } else if (schema.$ref) {
-    // "requestBody": {
-    //   "content": {
-    //     "application/json": {
-    //       "schema": {
-    //         "$ref": "#/components/schemas/FormDefinition"
-    //       }
+    // "content": {
+    //   "application/json": {
+    //     "schema": {
+    //       "$ref": "#/components/schemas/FormDefinition"
     //     }
-    //   },
-    //   "required": true
+    //   }
     // },
+    // "required": true
     bodyType = refName(schema.$ref)
     addImports(bodyType)
+  } else if (schema.type === 'object' && schema.properties) {
+    // 'content': {
+    //   'application/json': {
+    //     'schema': {
+    //       'type': 'object',
+    //       'properties': {
+    //         'sessionUser': {
+    //           '$ref': '#/components/schemas/SessionUser',
+    //         },
+    //         'request': {
+    //           '$ref': '#/components/schemas/UserAddRequest',
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
+    for (let [key, value] of Object.entries(schema.properties)) {
+      const type = refName(value.$ref)
+      addImports(type)
+      bodyType += `${key}:${type},`
+    }
+
+    bodyType = `{${bodyType}}`
   }
 
   if (bodyType) {

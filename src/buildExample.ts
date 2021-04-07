@@ -1,7 +1,6 @@
 import generate from '.'
 
-const testConfigURL =
-  'https://raw.githubusercontent.com/toft-code/swagger-axios-ts-generator/master/test.json'
+const testConfigURL = 'https://demo.bjcsby.com/api/v3/api-docs'
 
 generate({
   out: './testServices',
