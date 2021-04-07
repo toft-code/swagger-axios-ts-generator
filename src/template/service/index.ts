@@ -1,6 +1,7 @@
 import { getConfig } from '../../globalConfig'
 import { Paths, Tag } from '../../type/SwaggerConfigType'
 import formatCode from '../../utils/formatCode'
+import pascalCase from '../../utils/pascalCase'
 import { removeBlankLines } from '../../utils/removeBlankLines'
 import { getBodyDataType } from './getBodyDataType'
 import { getParameters } from './getParameters'
@@ -37,7 +38,8 @@ function getRequestsByTag(tag: Tag, paths: Paths) {
 
 export function generateService(tag: Tag, paths: Paths) {
   const requests = getRequestsByTag(tag, paths)
-  const { operationIdForeach } = getConfig()
+  const { operationIdForeach, serviceNameSuffix } = getConfig()
+  const serviceName = `${pascalCase(tag.name)}${serviceNameSuffix}`
   let requestExpressionMap = new Map<string, string>()
   let importExpressionSet = new Set()
 
@@ -100,9 +102,11 @@ export function generateService(tag: Tag, paths: Paths) {
     import { AxiosRequestConfig } from 'axios'
     ${Array.from(importExpressionSet).sort().join('\n')}
 
-    export default {
+    const ${serviceName} = {
       ${requestExpressions}
     }
+
+    export default ${serviceName}
   `
 
   return formatCode(code)
