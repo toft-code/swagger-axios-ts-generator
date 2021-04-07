@@ -21,7 +21,7 @@ function getRequestsByTag(tag: Tag, paths: Paths) {
      * requestDefinition - { "tags": [], "operationId": "updatePwd" ... }
      */
     for (const [httpMethod, requestDefinition] of Object.entries(pathValue)) {
-      if (requestDefinition.tags.includes(tagName)) {
+      if (requestDefinition.tags?.includes(tagName)) {
         selectedRequests.push({
           path,
           pathValue,
@@ -47,7 +47,8 @@ export function generateService(tag: Tag, paths: Paths) {
       requestBody,
       parameters,
       responses,
-      summary = 'no summary',
+      summary,
+      description,
     } = requestDefinition
     const operationIdAfter = operationIdForeach(operationId)
     const pathParametersType = getParametersType(parameters)
@@ -60,7 +61,7 @@ export function generateService(tag: Tag, paths: Paths) {
 
     const requestExpression = `
       /**
-       * ${summary}
+       * ${summary || description || 'no description'}
        */
       ${operationIdAfter} (
         ${pathParametersType ? `params: {${pathParametersType}},` : ''}

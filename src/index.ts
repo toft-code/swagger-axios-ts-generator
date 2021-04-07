@@ -59,8 +59,32 @@ export async function generate(config: Config) {
       })
     }
 
+    // get all tags
+    const allPathTags = new Set<string>()
+    Object.keys(swaggerJSON.paths).forEach((key) => {
+      const pathDefinition = swaggerJSON.paths[key]
+
+      Object.keys(pathDefinition).forEach((key) => {
+        allPathTags.add(pathDefinition[key].tags[0])
+      })
+    })
+
+    // merge all tags
+    const tags: { name: string; description: string }[] = []
+    allPathTags.forEach((tag) => {
+      const result = swaggerJSON.tags?.find((tagDefinition) => {
+        return tagDefinition.name === tag
+      })
+
+      if (result) {
+        tags.push(result)
+      } else {
+        tags.push({ name: tag, description: tag })
+      }
+    })
+
     // service
-    swaggerJSON.tags.forEach((tag) => {
+    tags.forEach((tag) => {
       createServiceFile(tag.name, generateService(tag, swaggerJSON.paths))
     })
 
