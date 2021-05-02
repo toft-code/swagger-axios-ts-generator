@@ -4,6 +4,7 @@ import formatCode from '../../utils/formatCode'
 import pascalCase from '../../utils/pascalCase'
 import { removeBlankLines } from '../../utils/removeBlankLines'
 import { getBodyDataType } from './getBodyDataType'
+import getFormData from './getFormData'
 import { getParameters } from './getParameters'
 import { getParametersType } from './getParametersType'
 import { getResponses } from './getResponses'
@@ -52,11 +53,13 @@ export function generateService(tag: Tag, paths: Paths) {
       summary,
       description,
     } = requestDefinition
+    const isMultipartFormData = !!requestBody?.content?.['multipart/form-data']
     const operationIdAfter = operationIdForeach(operationId)
     const pathParametersType = getParametersType(parameters)
     const pathParameters = getParameters(parameters)
     const { bodyType, bodyTypeImportsSet } = getBodyDataType(requestBody)
     const pathWithPathParams = path.replace(/{/g, '${params.')
+    const formData = getFormData(requestBody)
     const { responseTypeExpression, responseImportsSet } = getResponses(
       responses
     )
@@ -70,9 +73,12 @@ export function generateService(tag: Tag, paths: Paths) {
         ${bodyType}
         options: AxiosRequestConfig = {}
       ) {
+        ${formData}
+
         return request${responseTypeExpression}({
           ${pathParameters ? `params: {${pathParameters}},` : ''}
-          ${bodyType ? `data,` : ''}
+          ${bodyType && !isMultipartFormData ? `data,` : ``}
+          ${bodyType && isMultipartFormData ? `data: formData,` : ``}
           url: \`${pathWithPathParams}\`,
           method: '${httpMethod}',
           ...options

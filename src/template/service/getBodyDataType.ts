@@ -10,7 +10,11 @@ export function getBodyDataType(requestBody: IRequestBody) {
 
   const { content, required } = requestBody
   const requiredSign = required ? ':' : '?:'
-  const schema = content?.['application/json']?.schema
+  let schema = content?.['application/json']?.schema
+
+  if (content['multipart/form-data']) {
+    schema = content?.['multipart/form-data']?.schema
+  }
 
   if (!schema) return { bodyType, bodyTypeImportsSet }
 
@@ -72,8 +76,14 @@ export function getBodyDataType(requestBody: IRequestBody) {
     //   },
     // },
     for (let [key, value] of Object.entries(schema.properties)) {
-      const type = refName(value.$ref)
-      addImports(type)
+      let type = ''
+      if (value.$ref) {
+        type = refName(value.$ref)
+        addImports(type)
+      } else {
+        type = 'File'
+      }
+
       bodyType += `${key}:${type},`
     }
 
