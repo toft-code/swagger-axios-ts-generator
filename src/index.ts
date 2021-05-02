@@ -21,10 +21,10 @@ export async function generate(config: Config) {
   let swaggerJSON: SwaggerConfigType
 
   if (finalConfig.url) {
-    swaggerJSON = await loadRemoteFile<SwaggerConfigType>(
+    swaggerJSON = (await loadRemoteFile(
       'swagger json',
       finalConfig.url
-    )
+    )) as SwaggerConfigType
 
     console.log('openapi: ' + chalk.green(swaggerJSON.openapi))
 

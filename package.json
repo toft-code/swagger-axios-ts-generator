@@ -32,10 +32,10 @@
   },
   "homepage": "https://github.com/toft-code/swagger-axios-ts-generator#readme",
   "dependencies": {
-    "@types/jest": "^26.0.22",
     "axios": "^0.20.0",
     "chalk": "^4.1.0",
     "fs-extra": "^9.0.1",
+    "got": "^11.8.2",
     "jest": "^26.6.3",
     "ora": "^5.1.0",
     "prettier": "^2.1.2",
@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.1",
+    "@types/jest": "^26.0.22",
     "@types/node": "^14.11.5",
     "@types/prettier": "^2.1.1",
     "@types/semver": "^7.3.4",

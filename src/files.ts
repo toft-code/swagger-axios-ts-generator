@@ -4,6 +4,7 @@ import { getConfig } from './globalConfig'
 import pascalCase from './utils/pascalCase'
 import Axios from 'axios'
 import ora from 'ora'
+import got, { Response } from 'got/dist/source'
 
 const INDEX_FILE = 'index.ts'
 
@@ -60,12 +61,19 @@ export function initFiles() {
   }
 }
 
-export async function loadRemoteFile<T>(name: string, url: string): Promise<T> {
+export async function loadRemoteFile<T = any>(
+  name: string,
+  url: string
+): Promise<T | string> {
   const spinner = ora(`Loading remote ${name} ...`).start()
 
-  const { data } = await Axios.get<T>(url).finally(() => {
+  const { body } = await got(url).finally(() => {
     spinner.stop()
   })
 
-  return data
+  try {
+    return JSON.parse(body)
+  } catch (e) {
+    return body
+  }
 }
